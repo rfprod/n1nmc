@@ -1,0 +1,25 @@
+<div ng-if="displayError" class="alert alert-danger alert-dismissible" role="alert">
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	{{displayError}}
+</div>
+
+<table class="table table-responsive table-condensed" ng-if="enableDrawer">
+	<tbody>
+		<tr ng-repeat="item in appDiagData.static">
+			<td>{{item.name}}</td>
+			<td>{{item.value}}</td>
+		</tr>
+		<tr ng-repeat="item in appDiagData.dynamic">
+			<td>{{item.name}}</td>
+			<td>{{item.value}}</td>
+		</tr>
+	<tbody>
+</table>
+
+<div class="btn-group btn-group-justified">
+	<a type="button" class="btn btn-warning" ng-click="toggleDrawer()">
+		<i class="glyphicon glyphicon-eye-open" ng-if="!enableDrawer"></i><i class="glyphicon glyphicon-eye-close" ng-if="enableDrawer"></i> toggle diag drawer
+	</a>
+</div>
+
+<div>&nbsp;</div>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html lang="en" ng-app="appCore" class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html lang="en" ng-app="appCore" class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html lang="en" ng-app="appCore" class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en" ng-app="appCore" class="no-js"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>APP</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body>
+	<!--[if lt IE 7]>
+		<p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<![endif]-->
+
+	<div ng-include="'views/nav/nav.html'"></div>
+
+	<div class="output" ui-view></div>
+
+	<span class="spinner" us-spinner spinner-key="root-spinner"></span>
+
+	<div ng-include="'views/common/footer.html'"></div>
+
+	<!-- vendor -->
+	<!-- PRODUCTION mode -->
+	<link rel="stylesheet" href="css/vendor-pack.min.css">
+	<script src="js/vendor-pack.min.js"></script> <!-- seems like it's working properly -->
+	<!-- DEBUG mode -->
+	<!--
+	<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="bower_components/bootstrap-css/css/bootstrap.min.css">
+	<link rel="stylesheet" href="bower_components/bootstrap-toggle/css/bootstrap-toggle.min.css">
+	<script src="bower_components/jquery/dist/jquery.js"></script>
+	<script src="bower_components/bootstrap-css/js/bootstrap.min.js"></script>
+	<script src="bower_components/bootstrap-toggle/js/bootstrap-toggle.min.js"></script>
+
+	<script src="bower_components/moment/min/moment.min.js"></script>
+	<script src="bower_components/angular/angular.js"></script>
+	<script src="bower_components/angular-animate/angular-animate.js"></script>
+	<script src="bower_components/angular-aria/angular-aria.js"></script>
+	<script src="bower_components/angular-bootstrap/ui-bootstrap.js"></script>
+	<script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+	<link rel="stylesheet" href="bower_components/angular-bootstrap/ui-bootstrap-csp.css"/>
+	<link rel="stylesheet" href="bower_components/angular-bootstrap-datetimepicker/src/css/datetimepicker.css"/>
+	<script src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js"></script>
+	<script src="bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js"></script>
+	<script src="bower_components/angular-confirm-modal/angular-confirm.js"></script>
+	<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+	<script src="bower_components/angular-loader/angular-loader.js"></script>
+	<script src="bower_components/angular-messages/angular-messages.js"></script>
+	<script src="bower_components/angular-resource/angular-resource.js"></script>
+	<script src="bower_components/angular-route/angular-route.js"></script>
+	<script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+	<script src="bower_components/angular-touch/angular-touch.js"></script>
+	<script src="bower_components/angular-translate/angular-translate.js"></script>
+	<script src="bower_components/angular-spinner/dist/angular-spinner.js"></script>
+	<script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+	<script src="bower_components/angular-websocket/dist/angular-websocket.js"></script>
+	<script src="bower_components/oclazyload/dist/ocLazyLoad.js"></script>
+
+	<script src="bower_components/d3/d3.min.js"></script>
+	<script src="bower_components/nvd3/build/nv.d3.min.js"></script>
+	<script src="bower_components/angular-nvd3/dist/angular-nvd3.js"></script>
+	<link rel="stylesheet" href="bower_components/nvd3/build/nv.d3.min.css">
+-->
+	<!-- app -->
+	<!-- PRODUCTION mode -->
+	<link rel="stylesheet" href="css/packed-app.min.css">
+	<!--<script src="js/packed-app.min.js"></script>--> <!-- minified js works, but not fully, it is buggy for now -->
+	<!-- DEBUG mode -->
+	<script src="app.js"></script>
+	<script src="views/nav/nav.controller.js"></script>
+	<script src="views/sign-in/sign-in.controller.js"></script>
+	<script src="views/user-panel/user-panel.controller.js"></script>
+	<script src="views/modal-add-account/modal-add-account.controller.js"></script>
+	<script src="views/admin-panel/admin-panel.controller.js"></script>
+	<script src="views/analytics/analytics.controller.js"></script>
+	<script src="views/diag/diag.controller.js"></script>
+	<script src="views/profile/profile.controller.js"></script>
+	<script src="components/filters/filters.js"></script>
+	<script src="components/services/http.services.js"></script>
+	<script src="components/services/user.service.js"></script>
+	<script src="components/services/auth.service.js"></script>
+	<script src="components/page/page.directives.js"></script>
+	<script src="components/validators/validators.directive.js"></script>
+	<script src="components/version/version.js"></script>
+	<script src="components/version/version.directive.js"></script>
+	<script src="components/translate/translate.controller.js"></script>
+	<script src="components/translate/i18n.js"></script>
+	<script src="components/content-editable/content-editable.directive.js"></script>
+
+</body>
+</html>

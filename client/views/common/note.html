@@ -1,0 +1,8 @@
+<div class="notification" ng-if="!dismissed">
+  <div class="alert alert-info alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true" ng-click="dismissAlert()">&times;</span>
+    </button>
+    {{noteText}} <a ui-sref="{{uiSref}}">{{linkText}}</a>
+  </div>
+</div>

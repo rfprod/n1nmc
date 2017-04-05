@@ -1,0 +1,81 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	<div ng-if="displayError" class="alert alert-danger alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		{{displayError}}
+	</div>
+
+	<form name="profileForm" novalidate ng-submit="update(profileForm.$valid)" ng-show="!passwordResetMode">
+
+		<div class="form-group has-feedback">
+			<input type="text" id="login" name="login" class="form-control" ng-model="user.model.login" placeholder="{{ 'Common.Form.Placeholder.Login' | translate}}" title="{{ 'Common.Form.Placeholder.Login' | translate }}" ng-readonly="true" required novalidate>
+			<span class="form-control-feedback glyphicon glyphicon-user"></span>
+		</div>
+
+		<div class="form-group has-feedback" ng-class="{ 'has-error': profileForm.firstName.$invalid && submitted }">
+			<input type="text" id="firstName" name="firstName" class="form-control" ng-model="user.model.firstName" placeholder="{{ 'Common.Form.Placeholder.FirstName' | translate}}" title="{{ 'Common.Form.Placeholder.FirstName' | translate}}" required novalidate>
+			<span class="glyphicon glyphicon-user form-control-feedback"></span>
+			<p ng-show="profileForm.firstName.$invalid && submitted" class="help-block">{{ 'Common.Form.Feedback.Empty' | translate}}</p>
+		</div>
+
+		<div class="form-group has-feedback" ng-class="{ 'has-error': profileForm.lastName.$invalid && submitted }">
+			<input type="text" id="lastName" name="lastName" class="form-control" ng-model="user.model.lastName" placeholder="{{ 'Common.Form.Placeholder.LastName' | translate}}" title="{{ 'Common.Form.Placeholder.LastName' | translate}}" required novalidate>
+			<span class="glyphicon glyphicon-user form-control-feedback"></span>
+			<p ng-show="profileForm.lastName.$invalid && submitted" class="help-block">{{ 'Common.Form.Feedback.Empty' | translate}}</p>
+		</div>
+
+		<div class="form-group has-feedback" ng-class="{ 'has-error': profileForm.role.$invalid && submitted }">
+			<input type="text" id="role" name="role" class="form-control" ng-model="user.model.role" placeholder="{{ 'Common.Form.Placeholder.Role' | translate}}" title="{{ 'Common.Form.Placeholder.Role' | translate}}" ng-readonly="true" required novalidate>
+			<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+		</div>
+
+		<div class="form-group has-feedback" ng-class="{ 'has-error': profileForm.email.$invalid && submitted }">
+			<input type="email" id="email" name="email" class="form-control" ng-model="user.model.email" ng-pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+/" placeholder="{{ 'Common.Form.Placeholder.Email' | translate}}" title="{{ 'Common.Form.Placeholder.Email' | translate}}" required novalidate>
+			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+			<p ng-show="profileForm.email.$invalid" class="help-block">{{ 'Common.Form.Feedback.Email' | translate}}</p>
+		</div>
+
+		<p class="pull-left">
+			<a ng-click="switchMode()">{{ 'Common.Action.ResetPassword' | translate}}</a>
+		</p>
+
+		<p class="pull-right">
+			<a class="text-warning" ng-if="enableSendButton()" ng-click="resetChanges()">{{ 'Common.Action.ResetChanges' | translate}}</a>
+		</p>
+
+		<input class="btn btn-lg btn-primary wide" type="submit" ng-disabled="!enableSendButton()" value="{{ 'Common.Action.Update' | translate}}"/>
+
+	</form>
+
+	<form name="passwordForm" novalidate ng-submit="update(passwordForm.$valid)" ng-show="passwordResetMode">
+
+		<div class="form-group has-feedback" ng-class="{ 'has-error': passwordForm.password.$invalid && submitted }">
+			<input type="password" id="password" name="password" class="form-control" ng-model="password.currentPass" placeholder=" {{'Common.Form.Placeholder.Password' | translate}}" required novalidate>
+			<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+			<p ng-show="passwordForm.password.$invalid && submitted" class="help-block">{{ 'Common.Form.Feedback.Password' | translate}}</p>
+		</div>
+
+		<div class="form-group has-feedback" ng-class="{ 'has-error': passwordForm.newPassword.$invalid && submitted }">
+			<input type="password" id="newPassword" name="newPassword" class="form-control" ng-model="password.newPass" placeholder=" {{'Common.Form.Placeholder.NewPassword' | translate}}" required novalidate>
+			<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+			<p ng-show="passwordForm.newPassword.$invalid && submitted" class="help-block">{{ 'Common.Form.Feedback.Password' | translate}}</p>
+		</div>
+
+		<div class="form-group has-feedback" ng-class="{ 'has-error': passwordForm.passwordConfirmation.$invalid && submitted }">
+			<input type="password" id="passwordConfirmation" name="passwordConfirmation" class="form-control" ng-model="passwordConfirmation" compare-to="password.newPass" placeholder="{{ 'Common.Form.Placeholder.PasswordConfirmation' | translate}}" required novalidate>
+			<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+			<p ng-show="passwordForm.passwordConfirmation.$invalid && submitted" class="help-block">{{ 'Common.Form.Feedback.PasswordConfirmation' | translate}}</p>
+		</div>
+
+		<p class="pull-left">
+			<a ng-click="switchMode()">{{ 'Common.Action.ManageProfile' | translate}}</a>
+		</p>
+
+		<p class="pull-right">
+			<a class="text-warning" ng-if="password.currentPass.length > 0 || password.newPass.length > 0 || passwordConfirmation.length > 0" ng-click="resetChanges()">{{ 'Common.Action.ResetChanges' | translate}}</a>
+		</p>
+
+		<input class="btn btn-lg btn-primary wide" type="submit" ng-disabled="passwordForm.password.$invalid || passwordForm.newPassword.$invalid || passwordForm.passwordConfirmation.$invalid" value="{{ 'Common.Action.Update' | translate}}"/>
+
+	</form>
+
+</div>

@@ -1,0 +1,48 @@
+<nav class="navbar navbar-default navbar-fixed-top" ng-controller="NavigationController">
+	<div class="navbar-header">
+		<button ng-if="showNavigation()" type="button" class="navbar-toggle collapsed" data-toggle="collapse" ng-click="toggleNavbarCollapse()" aria-expanded="false" aria-controls="navbar">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" ui-sref="app.sign-in"><i class="fa fa-users"></i> {{ 'Nav.Header' | translate }}</a>
+	</div>
+	<div class="container">
+		<div ng-if="showNavigation()" id="navbar" class="collapse navbar-collapse" uib-collapse="!collapseNavbar">
+			<ul class="nav navbar-nav">
+				<li class="nav-divider30"></li>
+				<li ui-sref-active="active">
+					<a ng-if="!isAdmin()" ui-sref="app.user.dashboard" ng-click="toggleNavbarCollapse()">
+						<i class="glyphicon glyphicon-blackboard"></i> {{ 'Page.Title.Dashboard' | translate }}
+					</a>
+
+					<a ng-if="isAdmin()" ui-sref="app.admin.dashboard" ng-click="toggleNavbarCollapse()">
+						<i class="glyphicon glyphicon-blackboard"></i> {{ 'Page.Title.Dashboard' | translate }}
+					</a>
+				</li>
+				<li ui-sref-active="active">
+					<a ui-sref="app.profile" ng-click="toggleNavbarCollapse()">
+						<i class="glyphicon glyphicon-user"></i> {{ 'Page.Title.Profile' | translate }}
+					</a>
+				</li>
+
+				<li class="dropdown">
+					<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+						<i class="glyphicon glyphicon-globe"></i> {{ 'Common.Action.Language' | translate }} <span class="caret"></span>
+					</a>
+					<ul class="dropdown-menu" ng-controller="TranslateCtrl">
+						<li><a ng-click="changeLanguage('en')">English</a></li>
+						<li><a ng-click="changeLanguage('ru')">Русский</a></li>
+					</ul>
+				</li>
+
+				<li>
+					<a ng-click="logout()" ng-click="toggleNavbarCollapse()">
+						<i class="glyphicon glyphicon-off"></i> {{ 'Common.Action.Logout' | translate }}
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>

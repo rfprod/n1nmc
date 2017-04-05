@@ -1,0 +1,23 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	<div ng-if="displayError" class="alert alert-danger alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		{{displayError}}
+	</div>
+
+	<form class="form-signin" name="loginForm" novalidate ng-submit="signUserIn(loginForm.$valid)">
+
+		<div class="form-group has-feedback" ng-class="{ 'has-error': loginForm.email.$invalid && submitted }">
+			<input type="email" id="email" name="email" class="form-control" placeholder="{{ 'Common.Form.Placeholder.Email' | translate }}" required autofocus ng-model="email">
+			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+			<p ng-show="loginForm.email.$invalid && submitted" class="help-block">{{ 'Common.Form.Feedback.Email' | translate}}</p>
+		</div>
+
+		<div class="form-group has-feedback" ng-class="{ 'has-error': loginForm.email.$invalid && submitted }">
+			<input type="password" id="password" name="password" class="form-control" placeholder="{{ 'Common.Form.Placeholder.Password' | translate }}" required ng-model="password">
+			<span class="glyphicon glyphicon-lock form-control-feedback"></span>
+			<p ng-show="loginForm.password.$invalid && submitted" class="help-block">{{ 'Common.Form.Feedback.Password' | translate}}</p>
+		</div>
+
+		<input type="submit" class="btn btn-lg btn-primary btn-block" value="{{ 'Common.Action.Ok' | translate }}">
+	</form>
+<div>

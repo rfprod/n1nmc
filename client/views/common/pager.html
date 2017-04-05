@@ -1,0 +1,32 @@
+<div class="row" pager>
+	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" align="left">
+		<nav>
+			<ul class="pagination">
+				<li ng-class="{active: urlParams.size === 10}"><a ng-click="setSize($event)">10</a></li>
+				<li ng-class="{active: urlParams.size === 20}"><a ng-click="setSize($event)">20</a></li>
+				<li ng-class="{active: urlParams.size === 50}"><a ng-click="setSize($event)">50</a></li>
+				<li ng-class="{active: urlParams.size === 100}"><a ng-click="setSize($event)">100</a></li>
+				<li ng-class="{active: urlParams.size === 0}"><a ng-click="setSize($event)">-</a></li>
+			</ul>
+		</nav>
+	</div>
+	<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" align="right">
+		<nav>
+			<ul class="pagination">
+				<li ng-if="urlParams.page > 0">
+					<a aria-label="Previous" ng-click="selectPreviousPage()">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+				<li ng-class="{active: urlParams.page === page}" ng-repeat="page in pages" ng-show="urlParams.page >= page-2 && urlParams.page <= page+2">
+					<a ng-click="selectPage($event)" id="{{page}}">{{page+1}}</a>
+				</li>
+				<li ng-if="urlParams.page < total.pages-1">
+					<a aria-label="Next" ng-click="selectNextPage()">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</div>

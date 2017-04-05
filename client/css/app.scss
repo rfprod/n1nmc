@@ -1,0 +1,215 @@
+body {
+	padding-top: 40px;
+	padding-bottom: 40px;
+	background-color: #eee;
+}
+
+a {
+	outline: none;
+	&:hover { cursor: pointer; }
+	&:focus { outline: none; }
+}
+
+div {
+	&:focus { outline: none; }
+}
+
+.menu {
+	list-style: none;
+	border-bottom: 0.1em solid black;
+	margin-bottom: 2em;
+	padding: 0 0 0.5em;
+
+	&:before { content: "["; }
+	&:after { content: "]"; }
+
+	li {
+		display: inline;
+
+		&:before {
+			content: "|";
+			padding-right: 0.3em;
+		}
+
+		&:nth-child(1):before {
+			content: "";
+			padding: 0;
+		}
+	}
+}
+
+.output { padding-top: 25px; }
+
+.wide { width: 100%; }
+
+textarea { resize: vertical; }
+
+img.logo { display: inline-block; }
+
+.form-signin {
+	max-width: 330px;
+	padding: 15px;
+	margin: 0 auto;
+
+	.checkbox {
+		margin-bottom: 10px;
+		font-weight: normal;
+	}
+
+	.form-control {
+		position: relative;
+		height: auto;
+		-webkit-box-sizing: border-box;
+		-moz-box-sizing: border-box;
+		box-sizing: border-box;
+		padding: 10px;
+		font-size: 16px;
+
+		&:focus { z-index: 2; }
+	}
+
+	input[type="email"] {
+		margin-bottom: -1px;
+		border-bottom-right-radius: 0;
+		border-bottom-left-radius: 0;
+	}
+
+	input[type="password"] {
+		margin-bottom: 10px;
+		border-top-left-radius: 0;
+		border-top-right-radius: 0;
+	}
+
+	/* override bootstrap styling for form-control-feedback for .form-signin */
+	.has-feedback {
+		.form-control-feedback {
+			position: absolute;
+			top: 4px;
+			right: 15px;
+			display: block;
+			width: 34px;
+			height: 34px;
+			line-height: 34px;
+			text-align: center;
+		}
+	}
+}
+
+#modal-dashboard {
+	z-index: 1500;
+	height: 100vh;
+	width: 100vw;
+	padding: 60px 25px 25px 25px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: rgba(238,238,238, 0.9);
+	transition: 0.5s;
+	overflow-y: scroll;
+	overflow-x: hidden;
+
+	.close {
+		color: #000000;
+		font-size: 5vh;
+	}
+
+	.info { color: #000000; }
+
+	.form-control {
+		display: inline-block;
+		max-width:19vw;
+	}
+
+	input, select { min-width:100%; }
+
+
+}
+
+#inputDepName, #inputDepDescription, #inputFirstName, #inputLastName, #inputUserEmail, #inputUserPassword {
+	max-width: 100%;
+}
+
+.flex-button-container {
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: center;
+	justify-content: space-around;
+}
+
+th.glyph, td.glyph { text-align: center; }
+
+td.glyph a { margin-bottom: 0.3em; }
+
+.editable {
+	background: #cdcdcd;
+	padding: 0 1em 0 1em;
+}
+
+/* override default bootstrap navbar collapsable items styling */
+
+@media screen and (max-width: 1200px) {
+	.navbar-default {
+		background: none;
+		border: 0;
+		position: absolute;
+		top: 15px;
+		right: 15px;
+		left: 15px;
+	}
+	.navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
+		max-height: 75%;
+		overflow-x: hidden;
+		overflow-y: scroll;
+	}
+	.navbar-collapse {
+		background: #f5f5f5;
+	}
+	.navbar-collapse.collapse {
+		display: none!important;
+		height: 0!important;
+		padding-bottom: 0;
+		overflow: hidden!important;
+	}
+	.navbar-toggle.collapsed {
+		display: block!important;
+	}
+	.navbar-toggle {
+		display: block!important;
+	}
+	.navbar-collapse.collapse.in {
+		display: block!important;
+		height: auto!important;
+		overflow: visible!important;
+	}
+	.navbar-nav {
+		width: 100%;
+	}
+	.navbar-nav>li,.navbar-header {
+		float: none;
+	}
+	.navbar-default .navbar-toggle.collapsed {
+		background: #fff;
+	}
+}
+
+/* glyphicons colouring */
+.green { color: #449d44; }
+.red { color: #c9302c; }
+
+/* this styling is needed to override angular-ui-switch .switch definition */
+.day-view .switch {
+	colspan: 5;
+	display: table-cell;
+	text-align: center;
+	border: 0;
+	border-radius: 0;
+}
+
+/* max width classes for table filters */
+.max-width-50 { max-width: 50px; }
+.max-width-200 { max-width: 200px; }
+
+.control-image {
+	width: 150px;
+	height: auto !important;
+}

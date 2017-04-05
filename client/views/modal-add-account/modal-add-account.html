@@ -1,0 +1,44 @@
+<div class="modal-header">
+	<h3 class="modal-title">{{ 'Modal.Title.NewAccount' | translate }}</h3>
+</div>
+
+<div class="modal-body">
+
+	<form name="addAccountForm" novalidate ng-submit="update(addAccountForm.$valid)">
+
+		<div class="form-group has-feedback" ng-class="{ 'has-error': addAccountForm.firstName.$invalid }">
+			<input type="text" id="firstName" name="firstName" class="form-control" ng-model="newAccount.firstName" placeholder="{{ 'Common.Form.Placeholder.FirstName' | translate}}" title="{{ 'Common.Form.Placeholder.FirstName' | translate}}" required novalidate>
+			<span class="glyphicon glyphicon-user form-control-feedback"></span>
+			<p ng-show="addAccountForm.firstName.$invalid" class="help-block">{{ 'Common.Form.Feedback.Empty' | translate}}</p>
+		</div>
+
+		<div class="form-group has-feedback" ng-class="{ 'has-error': addAccountForm.lastName.$invalid }">
+			<input type="text" id="lastName" name="lastName" class="form-control" ng-model="newAccount.lastName" placeholder="{{ 'Common.Form.Placeholder.LastName' | translate}}" title="{{ 'Common.Form.Placeholder.LastName' | translate}}" required novalidate>
+			<span class="glyphicon glyphicon-user form-control-feedback"></span>
+			<p ng-show="addAccountForm.lastName.$invalid" class="help-block">{{ 'Common.Form.Feedback.Empty' | translate}}</p>
+		</div>
+
+		<div class="form-group has-feedback" ng-class="{ 'has-error': addAccountForm.role.$invalid }">
+			<select id="role" name="role" class="form-control" ng-model="newAccount.role" required novalidate>
+				<option value="" ng-selected="true">{{ 'Common.Form.Placeholder.Role' | translate}}</option>
+				<option ng-repeat="key in roles" ng-value="{{roles[key]}}" ng-bind-html="key">&nbsp;</option>
+			</select>
+			<p ng-show="addAccountForm.role.$invalid" class="help-block">{{ 'Common.Form.Feedback.Role' | translate}}</p>
+		</div>
+
+		<div class="form-group has-feedback" ng-class="{ 'has-error': addAccountForm.email.$invalid }">
+			<input type="email" id="email" name="email" class="form-control" ng-model="newAccount.email" ng-pattern="/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+/" placeholder="{{ 'Common.Form.Placeholder.Email' | translate}}" title="{{ 'Common.Form.Placeholder.Email' | translate}}" required novalidate>
+			<span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+			<p ng-show="addAccountForm.email.$invalid" class="help-block">{{ 'Common.Form.Feedback.Email' | translate}}</p>
+		</div>
+
+	</form>
+
+	<div>&nbsp;</div>
+
+</div>
+
+<div class="modal-footer">
+	<button class="btn btn-success" type="button" ng-disabled="disableOkButton()" ng-click="ok()"><i class="glyphicon glyphicon-plus-sign"></i> {{ 'Common.Action.Add' | translate }}</button>
+	<button class="btn btn-danger" type="button" ng-click="cancel()"><i class="glyphicon glyphicon-remove-sign"></i> {{ 'Common.Action.Cancel' | translate }}</button>
+</div>

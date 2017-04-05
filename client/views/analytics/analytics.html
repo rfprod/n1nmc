@@ -1,0 +1,24 @@
+<span id="modal-dashboard" ng-if="displayModal">
+	<button type="button" class="close" ng-click="toggleModal()"><span>&times;</span></button>
+
+	<div ng-if="displayError" class="alert alert-danger alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		{{displayError}}
+	</div>
+
+	<nvd3 options="options_1" data="data_1"></nvd3>
+
+	<nvd3 options="options_2" data="data_2"></nvd3>	
+</span>
+
+<div class="btn-group btn-group-justified">
+	<a type="button" class="btn btn-info" ng-click="toggleModal()">
+		<i class="glyphicon glyphicon-stats"></i> display analytics
+	</a>
+	<a type="button" class="btn" ng-class="{ 'btn-info': !reportSuccessfullySent, 'btn-success': reportSuccessfullySent }" ng-disabled="reportSuccessfullySent" ng-click="getReport()">
+		<span ng-if="!reportSuccessfullySent"><i class="glyphicon glyphicon-save"></i> download report</span>
+		<span ng-if="reportSuccessfullySent"><i class="glyphicon glyphicon-ok"></i> report saved</span>
+	</a>
+</div>
+
+<div>&nbsp;</div>

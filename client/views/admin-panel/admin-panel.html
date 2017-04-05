@@ -1,0 +1,170 @@
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+	<div ng-if="displayError" class="alert alert-danger alert-dismissible" role="alert">
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		{{displayError}}
+	</div>
+
+	<div ui-view="analytics"></div>
+
+	<div id="diag" ui-view="diag"></div>
+
+	<ul class="nav nav-tabs nav-justified">
+		<li role="presentation" ng-class="{ active: mode }">
+			<a ng-click="selectMode()">{{ 'Common.Title.Entrants' | translate }}</a>
+		</li>
+		<li role="presentation" ng-class="{ active: !mode }">
+			<a ng-click="selectMode()">{{ 'Common.Title.Users' | translate }}</a>
+		</li>
+	</ul>
+
+	<table class="table table-condensed table-responsive" ng-if="mode && !displayModal">
+		<thead>
+			<tr class="info">
+				<th rowspan="2">#</th>
+				<th rowspan="2">{{ 'Common.Table.Header.Id' | translate }}</th>
+				<th rowspan="2">{{ 'Common.Table.Header.Created' | translate }}</th>
+				<th rowspan="2">{{ 'Common.Table.Header.Participates' | translate }}</th>
+				<th rowspan="2">{{ 'Common.Table.Header.FullName' | translate }}</th>
+				<th rowspan="2">{{ 'Common.Table.Header.Email' | translate }}</th>
+				<th rowspan="2">{{ 'Common.Table.Header.Phone' | translate }}</th>
+				<th colspan="4">{{ 'Common.Table.Header.Control' | translate }}</th>
+				<th rowspan="2"><i class="glyphicon glyphicon-cog"></i></th>
+			</tr>
+			<tr class="info">
+				<th>{{ 'Common.Table.Header.Control.Amount' | translate }}</th>
+				<th>{{ 'Common.Table.Header.Control.VendorId' | translate }}</th>
+				<th>{{ 'Common.Table.Header.Control.Message' | translate }}</th>
+				<th>{{ 'Common.Table.Header.Control.Image' | translate }}</th>
+			</tr>
+			<tr>
+				<th></th>
+				<th><div class="form-group max-width-50"><input type="text" class="form-control" ng-model="filters.filterById"></div></th>
+				<th id="date-picker-input">
+					<div class="dropdown form-group">
+						<a class="dropdown-toggle" id="dropdown1" role="button" data-toggle="dropdown" data-target="#" href="">
+							<div class="input-group date">
+								<input type="text" class="form-control" ng-model="filters.filterByDate">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+							</div>
+						</a>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+							<datetimepicker data-ng-model="filters.dateRangeStart" data-datetimepicker-config="dateTimePickerConfig" data-before-render="beforeRenderStartDate($view, $dates, $leftDate, $upDate, $rightDate)"></datetimepicker>
+						</ul>
+					</div>
+				</th>
+				<th>
+					<div class="form-group">
+						<select class="form-control" ng-model="filters.filterByParticipation">
+							<option></option>
+							<option value="true">{{ 'Common.Action.Yes' | translate }}</option>
+							<option value="false">{{ 'Common.Action.No' | translate }}</option>
+						</select>
+					</div>
+				</th>
+				<th><div class="form-group"><input type="text" class="form-control" ng-model="filters.filterByFullName"></div></th>
+				<th><div class="form-group"><input type="text" class="form-control" ng-model="filters.filterByEmail"></div></th>
+				<th><div class="form-group"><input type="text" class="form-control" ng-model="filters.filterByPhone"></div></th>
+				<th><div class="form-group"><input type="text" class="form-control" ng-model="filters.filterByControlAmount"></div></th>
+				<th><div class="form-group"><input type="text" class="form-control" ng-model="filters.filterByControlVendorId"></div></th>
+				<th><div class="form-group"><input type="text" class="form-control" ng-model="filters.filterByControlMessage"></div></th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="entrant in entrants | orderBy:'id' | filter:{id:filters.filterById, created:filters.filterByDate, participates:filters.filterByParticipation, firstName:filters.filterByFullName, email:filters.filterByEmail, phone:filters.filterByPhone, control: {amount:filters.filterByControlAmount, vendorId:filters.filterByControlVendorId, message:filters.filterByControlMessage} }">
+				<td>{{$index}}</td>
+				<td>{{entrant.id}}</td>
+				<td>{{entrant.created | date}}</td>
+				<td>
+					<input type="checkbox" data-toggle="toggle" toggle-checkbox="small" ng-model="entrant.participates" data-on='<i class="fa fa-power-off" aria-hidden="true"></i>' data-off='<i class="fa fa-power-off" aria-hidden="true"></i>' data-onstyle="success" data-offstyle="danger" ng-change="switchEntrantState(entrant,$index)">
+				</td>
+				<td>{{entrant.firstName}} {{entrant.lastName}}</td>
+				<td>{{entrant.email}}</td>
+				<td>{{entrant.phone}}</td>
+				<td>{{entrant.control.amount}}</td>
+				<td>{{entrant.control.vendorId}}</td>
+				<td>{{entrant.control.message}}</td>
+				<td><img src="{{entrant.control.image}}"/></td>
+				<td>
+					<a class="btn btn-xs btn-danger" ng-click="deleteEntrant(entrant.id)"><span class="glyphicon glyphicon-trash"></span></a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<div ng-include="'views/common/pager.html'" ng-if="mode && !displayModal"></div>
+
+	<table class="table table-condensed table-responsive" ng-if="!mode && !displayModal">
+		<thead>
+			<tr class="info">
+				<th colspan="9">
+					<a class="btn wide" ng-click="addAccount()">
+						<i class="glyphicon glyphicon-plus"></i>
+					</a>
+				</th>
+			</tr>
+			<tr class="info">
+				<th>#</th>
+				<th>{{ 'Common.Table.Header.Id' | translate }}</th>
+				<th>{{ 'Common.Table.Header.Login' | translate }}</th>
+				<th>{{ 'Common.Table.Header.FirstName' | translate }}</th>
+				<th>{{ 'Common.Table.Header.LastName' | translate }}</th>
+				<th>{{ 'Common.Table.Header.Email' | translate }}</th>
+				<th>{{ 'Common.Table.Header.Role' | translate }}</th>
+				<th>{{ 'Common.Table.Header.LastLogin' | translate }}</th>
+				<th><i class="glyphicon glyphicon-cog"></i></th>
+			</tr>
+			<tr>
+				<th></th>
+				<th><div class="form-group max-width-50"><input type="text" class="form-control" ng-model="filters.filterById"></div></th>
+				<th><div class="form-group"><input type="text" class="form-control" ng-model="filters.filterByLogin"></div></th>
+				<th><div class="form-group"><input type="text" class="form-control" ng-model="filters.filterByFirstName"></div></th>
+				<th><div class="form-group"><input type="text" class="form-control" ng-model="filters.filterByLastName"></div></th>
+				<th><div class="form-group"><input type="text" class="form-control" ng-model="filters.filterByEmail"></div></th>
+				<th>
+					<div class="form-group">
+						<select class="form-control" ng-model="filters.filterByRole">
+							<option></option>
+							<option value="user">{{ 'Common.Role.User' | translate }}</option>
+							<option value="admin">{{ 'Common.Role.Admin' | translate }}</option>
+						</select>
+					</div>
+				</th>
+				<th id="date-picker-input">
+					<div class="dropdown form-group max-width-200">
+						<a class="dropdown-toggle" id="dropdown1" role="button" data-toggle="dropdown" data-target="#" href="">
+							<div class="input-group date">
+								<input type="text" class="form-control" ng-model="filters.filterByDate">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+							</div>
+						</a>
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+							<datetimepicker data-ng-model="filters.dateRangeStart" data-datetimepicker-config="dateTimePickerConfig" data-before-render="beforeRenderStartDate($view, $dates, $leftDate, $upDate, $rightDate)"></datetimepicker>
+						</ul>
+					</div>
+				</th>
+				<th></th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="account in accounts | orderBy:'id' | filter:{id:filters.filterById, login:filters.filterByLogin, firstName:filters.filterByFirstName, lastName:filters.filterByLastName, email:filters.filterByEmail, role:filters.filterByRole, lastLogin: filters.filterByDate }">
+				<td>{{$index}}</td>
+				<td>{{account.id}}</td>
+				<td>{{account.login}}</td>
+				<td contenteditable="{{account.id == selectedAccountId}}" ng-model="account.firstName" ng-class="{'editable': account.id == selectedAccountId}">{{account.firstName}}</td>
+				<td contenteditable="{{account.id == selectedAccountId}}" ng-model="account.lastName" ng-class="{'editable': account.id == selectedAccountId}">{{account.lastName}}</td>
+				<td contenteditable="{{account.id == selectedAccountId}}" ng-model="account.email" ng-class="{'editable': account.id == selectedAccountId}">{{account.email}}</td>
+				<td>{{account.role}}</td>
+				<td>{{account.lastLogin | date}}</td>
+				<td>
+					<a class="btn btn-xs btn-warning" ng-click="editAccount(account.id)" ng-hide="account.role == 'admin' || account.id == selectedAccountId"><span class="glyphicon glyphicon-pencil"></span></a>
+					<a class="btn btn-xs btn-warning" ng-click="resetAccountPassword(account.id)" ng-hide="account.role == 'admin' || account.id == selectedAccountId"><span class="glyphicon glyphicon-lock"></span></a>
+					<a class="btn btn-xs btn-danger" ng-click="deleteAccount(account.id)" ng-hide="account.role == 'admin' || account.id == selectedAccountId"><span class="glyphicon glyphicon-trash"></span></a>
+					<a class="btn btn-xs btn-success" ng-click="saveEditedAccount()" ng-hide="account.id != selectedAccountId"><span class="glyphicon glyphicon-ok"></span></a>
+					<a class="btn btn-xs btn-danger" ng-click="cancelEditAccount()" ng-hide="account.id != selectedAccountId"><span class="glyphicon glyphicon-remove"></span></a>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+<div>
