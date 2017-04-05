@@ -3,3 +3,9 @@ client/bower_components/
 *.log
 logs/*.log
 *.csv
+.env
+.*.env
+client/css/*.css
+client/js/*.js
+client/fonts/*.*
+!client/fonts/*.gitkeep
