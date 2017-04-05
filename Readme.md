@@ -41,7 +41,7 @@ To install N1NMC execute the below command in the terminal window while in your 
 git clone https://github.com/rfprod/n1nmc.git
 ```
 
-This will install the N1NMC components into the `n2nmc` directory in your projects folder.
+This will install the N1NMC components into the `n1nmc` directory in your projects folder.
 
 ### Local Environment Variables
 
