@@ -33,13 +33,14 @@ module.exports = {
 
 	createDefaultUser: function(callback) {
 		/*
-		*	two users in fact, needed for tests
+		*	2 users, needed for tests
 		*/
 		let response = [];
-		for (let i = 1; i <= 2; i++) {
-			Account.find({id: i}, (err, docs) => {
-				if (err) throw err;
-				if (docs.length === 0) {
+		Account.find({}, (err, docs) => {
+			if (err) throw err;
+			const items = docs.length;
+			if (items < 2) {
+				for (let i = (items) ? items : 1; i <= 2; i++) {
 					let newAccount = new Account();
 					newAccount.id = i;
 					newAccount.login = 'user' + i;
@@ -56,14 +57,14 @@ module.exports = {
 						if (err) throw err;
 						console.log('default user created');
 						response.push(newAccount);
+						if (i === 2) { callback(response); }
 					});
-				} else {
-					console.log('default user exists');
-					response.push(docs[0]);
 				}
-				if (i === 2) { callback(response); }
-			});
-		}
+			} else {
+				console.log('default users exist');
+				callback(docs);
+			}
+		});
 	},
 
 	createDefaultEntrant: function(callback) {
