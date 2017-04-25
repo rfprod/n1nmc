@@ -5,7 +5,6 @@ angular.module('appCore.adminPanel', ['angular-confirm', 'ui.bootstrap.tpls'])
 .controller('AdminPanelController', ['$rootScope', '$scope', '$state', '$filter', '$confirm', '$uibModal', 'usSpinnerService', 'UserService', 'API',
 	function($rootScope, $scope, $state, $filter, $confirm, $uibModal, usSpinnerService, UserService, API) {
 		$scope.displayError = undefined;
-		$scope.isLoggedIn = false;
 		$scope.loading = true;
 		$scope.$watch('loading', function(newValue) {
 			if (newValue) { usSpinnerService.spin('root-spinner'); }
@@ -270,8 +269,10 @@ angular.module('appCore.adminPanel', ['angular-confirm', 'ui.bootstrap.tpls'])
 			});
 			$confirm({
 				title: 'Подтвердите редактирование учётной записи',
-				text: 'Старые значения: '+$scope.selectedAccountObj.id+'. '+$scope.selectedAccountObj.name+': '+$scope.selectedAccountObj.description+
-					'. Новые значения: '+newValuesObj.id+'. '+newValuesObj.name+': '+newValuesObj.description+'. Это действие необратимо.',
+				text: 'Старые значения: '+$scope.selectedAccountObj.id+'. '+$scope.selectedAccountObj.login+', '+$scope.selectedAccountObj.firstName+
+					', '+$scope.selectedAccountObj.lastName+', '+$scope.selectedAccountObj.email+', '+$scope.selectedAccountObj.role+
+					'. Новые значения: '+newValuesObj.id+'. '+newValuesObj.name+', '+newValuesObj.login+', '+newValuesObj.firstName+
+					', '+newValuesObj.lastName+', '+newValuesObj.email+', '+newValuesObj.role+'. Это действие необратимо.',
 				ok: 'Сохранить изменения',
 				cancel: 'Отмена'
 			}).then(function() {
@@ -419,16 +420,11 @@ angular.module('appCore.adminPanel', ['angular-confirm', 'ui.bootstrap.tpls'])
 		$scope.$on('$viewContentLoaded', function(event) {
 			console.log('Admin Panel Controller loaded: ', event);
 			$rootScope.$broadcast('restoreuser');
-			if ($scope.user.model) {
-				if ($scope.user.model.token != '') $scope.isLoggedIn = true;
-				else $scope.isLoggedIn = false;
-			} else $scope.isLoggedIn = false;
-			if (!$scope.isLoggedIn) $state.go('app.sign-in');
-			else {
-				if ($scope.user.model.role == 'admin') {
-					$scope.updateEntrantsModel();
-					$scope.updateAccountsModel();
-				} else $state.go('app.user.dashboard');
+			if ($scope.user.model.role == 'admin') {
+				$scope.updateEntrantsModel();
+				$scope.updateAccountsModel();
+			} else {
+				$state.go('app.user.dashboard');
 			}
 		});
 		$scope.$on('$destroy', function(event) {

@@ -49,7 +49,7 @@ var app = angular.module('appCore', [
 				templateUrl: 'views/sign-in/sign-in.html',
 				controller: 'SignInController',
 				data: {
-					requireAuth: false,
+					requiresAuth: false,
 					pageTitle: 'Page.Title.Signin',
 					pageLead: 'Page.Brief.Signin'
 				}
@@ -60,7 +60,7 @@ var app = angular.module('appCore', [
 				templateUrl: 'views/profile/profile.html',
 				controller: 'ProfileController',
 				data: {
-					requireAuth: true,
+					requiresAuth: true,
 					pageTitle: 'Page.Title.Profile',
 					pageLead: 'Page.Brief.Profile'
 				}
@@ -151,13 +151,17 @@ var app = angular.module('appCore', [
 		});
 	}
 ])
-.run(['$rootScope', '$state', 'Auth',
-	function ($rootScope, $state, Auth) {
+.run(['$rootScope', '$state', '$window', '$location', 'Auth',
+	function ($rootScope, $state, $window, $location, Auth) {
 		$rootScope.$state = $state;
 		$rootScope.$on('$stateChangeStart', function (event, toState) {
-			if ( ( toState.data === undefined || toState.data.requireAuth === undefined || toState.data.requireAuth ) && !Auth.authenticated()) {
-				event.preventDefault();
-				$state.go('app.sign-in');
+			if (toState.data.requiresAuth && !Auth.authenticated()) {
+				if ($location.$$host === 'localhost') {
+					console.log('no token, running on localhost, not refirecting');
+				} else {
+					event.preventDefault();
+					window.location.href='/';
+				}
 			}
 		});
 	}

@@ -29,8 +29,6 @@ describe('appCore.adminPanel module', function() {
 			expect(scope.loading).toBeTruthy();
 			expect(scope.displayModal).toBeDefined();
 			expect(scope.displayModal).toBeFalsy();
-			expect(scope.isLoggedIn).toBeDefined();
-			expect(scope.isLoggedIn).toBeFalsy();
 			expect(scope.user).toEqual(UserService);
 			expect(scope.updateUserToken).toBeDefined();
 			expect(scope.filters).toEqual(jasmine.any(Object));

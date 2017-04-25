@@ -22,8 +22,6 @@ describe('appCore.profile module', function() {
 
 		it('should have proper definitions', function(){
 			expect(scope.displayError).toBeUndefined();
-			expect(scope.isLoggedIn).toBeDefined();
-			expect(scope.isLoggedIn).toBeFalsy();
 			expect(scope.submitted).toBeDefined();
 			expect(scope.submitted).toBeFalsy();
 			expect(scope.loading).toBeDefined();

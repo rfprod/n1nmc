@@ -5,7 +5,6 @@ angular.module('appCore.profile', [])
 .controller('ProfileController', ['$rootScope', '$scope', '$state', '$confirm', 'UserService', 'API', 'usSpinnerService',
 	function($rootScope, $scope, $state, $confirm, UserService, API, usSpinnerService){
 		$scope.displayError = undefined;
-		$scope.isLoggedIn = false;
 		$scope.submitted = false;
 		$scope.loading = true;
 		$scope.$watch('loading',function(newValue) {
@@ -185,12 +184,7 @@ angular.module('appCore.profile', [])
 		$scope.$on('$viewContentLoaded', function() {
 			console.log('Profile controller loaded');
 			$rootScope.$broadcast('restoreuser');
-			if ($scope.user.model) {
-				if ($scope.user.model.token != '') $scope.isLoggedIn = true;
-				else $scope.isLoggedIn = false;
-			}else $scope.isLoggedIn = false;
-			if (!$scope.isLoggedIn) $state.go('app.sign-in');
-			else $scope.getUser();
+			$scope.getUser();
 		});
 		$scope.$on('$destroy', function() {
 			console.log('Profile controller destroyed');

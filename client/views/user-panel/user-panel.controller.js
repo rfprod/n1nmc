@@ -17,7 +17,6 @@ angular.module('appCore.userPanel', [])
 		});
 
 		$scope.user = UserService;
-		$scope.isLoggedIn = false;
 		$scope.updateUserToken = function(response) {
 			var responseHeaders = response.$httpHeaders();
 			if (responseHeaders.usertokenupdate) {
@@ -139,15 +138,10 @@ angular.module('appCore.userPanel', [])
 		$scope.$on('$viewContentLoaded', function(event) {
 			console.log('User Panel Controller loaded:', event);
 			$rootScope.$broadcast('restoreuser');
-			if ($scope.user.model) {
-				if ($scope.user.model.token != '') $scope.isLoggedIn = true;
-				else $scope.isLoggedIn = false;
-			}else $scope.isLoggedIn = false;
-			if (!$scope.isLoggedIn) $state.go('app.sign-in');
-			else {
-				if ($scope.user.model.role == 'user') {
-					$scope.updateEntrantsModel();
-				}else $state.go('app.admin.dashboard');
+			if ($scope.user.model.role == 'user') {
+				$scope.updateEntrantsModel();
+			} else {
+				$state.go('app.admin.dashboard');
 			}
 		});
 		$scope.$on('$destroy', function(event) {
