@@ -1,4 +1,4 @@
-Ng1NodeMongoCore (N1NMC)
+The MIT License (MIT)
 
 Copyright (c) 2017 rfprod.
 
