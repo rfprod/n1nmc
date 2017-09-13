@@ -65,24 +65,30 @@ module.exports = function(config) {
     },
 
 		plugins: [
-			// 'karma-chrome-launcher',
-			// 'karma-firefox-launcher',
 			'karma-ng-html2js-preprocessor',
-			'karma-phantomjs-launcher',
+			'karma-chrome-launcher',
+			// 'karma-firefox-launcher',
 			'karma-jasmine'
 		],
 
-		//browsers: ['Chrome'],
-		//browsers: ['Firefox'],
-		browsers: ['PhantomJS'],
-
-		phantomjsLauncher: {
+		customLaunchers: {
 			/*
-			*	exit phantomjs if a ResourceError is encountered
-			*	useful if karma exits without killing phantomjs)
+			*	this custom launcher requires setting env var CHROME_BIN=chromium-browser
+			*	possible options for env var value depending on what you have installed:
+			*	chromium-browser, chromium, google-chrome
 			*/
-			exitOnResourceError: true
+			ChromeHeadless: {
+				base: 'Chrome',
+				flags: [
+					'--headless',
+					'--disable-gpu',
+					// Without a remote debugging port Chrome exits immediately
+					'--remote-debugging-port=9222'
+				]
+			}
 		},
+		browsers: ['ChromeHeadless'],
+		//browsers : ['Chrome', 'Firefox'],
 
 		/*
 		*	overrides the error, warn instead

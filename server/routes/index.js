@@ -746,8 +746,8 @@ module.exports = (app, passport, crypto, jwt, Account, Entrant, SrvInfo, DataIni
 		console.log('entrants list');
 		let limit = null,
 			offset = null;
-		if (req.query.limit) limit = req.query.limit;
-		if (req.query.offset) offset = req.query.offset;
+		if (req.query.limit) limit = parseInt(req.query.limit, 10);
+		if (req.query.offset) offset = parseInt(req.query.offset, 10);
 		/*
 		* requires auth (user or admin)
 		*/
