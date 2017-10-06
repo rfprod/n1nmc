@@ -130,7 +130,7 @@ gulp.task('sass-autoprefix-minify-css', () => {
 	return gulp.src('./client/css/*.scss')
 		.pipe(plumber())
 		.pipe(concat('packed-app.css'))
-		.pipe(sass())
+		.pipe(sass().on('error', sass.logError))
 		.pipe(autoprefixer({
 			browsers: ['last 2 versions']
 		}))
