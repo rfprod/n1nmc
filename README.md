@@ -1,6 +1,6 @@
-# Ng1NodeMongoCore (N1NMC)
+# Ng1NodeMongoCore (Ng1NMC)
 
-![build](https://travis-ci.org/rfprod/ng1mnc.svg?branch=master)
+![build](https://travis-ci.org/rfprod/ng1nmc.svg?branch=master)
 
 ## Overview
 

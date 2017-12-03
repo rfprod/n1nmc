@@ -12,10 +12,10 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/rfprod/n1nmc"
+		"url": "git+https://github.com/rfprod/ng1nmc"
 	},
-	"bugs": "https://github.com/rfprod/n1nmc/issues",
-	"homepage": "https://github.com/rfprod/n1nmc",
+	"bugs": "https://github.com/rfprod/ng1nmc/issues",
+	"homepage": "https://github.com/rfprod/ng1nmc",
 	"keywords": [
 		"MongoDB",
 		"Mongoose",
