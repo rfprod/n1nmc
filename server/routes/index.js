@@ -321,6 +321,7 @@ module.exports = (app, passport, crypto, jwt, Account, Entrant, SrvInfo, DataIni
 		})(req,res);
 	});
 
+// eslint-disable-next-line
 // Users
 
 	app.get('/api/users/me', (req, res) => {
@@ -518,7 +519,7 @@ module.exports = (app, passport, crypto, jwt, Account, Entrant, SrvInfo, DataIni
 				|| typeof postParams.firstName == 'undefined'
 				|| typeof postParams.lastName == 'undefined'
 				|| typeof postParams.role == 'undefined'
-				) postParamsMissing = true;
+			) postParamsMissing = true;
 			console.log('isAdmin:', isAdmin);
 			console.log('alreadyExists:', alreadyExists);
 			console.log('postParamsMissing:', postParamsMissing);
@@ -689,6 +690,7 @@ module.exports = (app, passport, crypto, jwt, Account, Entrant, SrvInfo, DataIni
 		});
 	});
 
+// eslint-disable-next-line
 // Entrants
 
 	app.post('/entrants/new', (req, res) => {
@@ -859,6 +861,7 @@ module.exports = (app, passport, crypto, jwt, Account, Entrant, SrvInfo, DataIni
 		});
 	});
 
+// eslint-disable-next-line
 // Analytics
 
 	app.get('/api/analytics/data', (req, res) => {

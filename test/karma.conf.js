@@ -1,51 +1,49 @@
 module.exports = function(config) {
 	config.set({
 
-		basePath: '../client',
+		basePath: '../',
 
 		files: [
-			'bower_components/jquery/dist/jquery.min.js',
-				'bower_components/bootstrap/dist/js/bootstrap.min.js',
-				'bower_components/bootstrap-toggle/js/bootstrap-toggle.min.js',
-			'bower_components/moment/min/moment.min.js',
-			'bower_components/angular/angular.js',
-			'bower_components/angular-animate/angular-animate.js',
-			'bower_components/angular-aria/angular-aria.js',
-			'bower_components/angular-bootstrap/ui-bootstrap.js',
-			'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
-			'bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
-			'bower_components/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js',
-			'bower_components/angular-confirm-modal/angular-confirm.js',
-			'bower_components/angular-cookies/angular-cookies.js',
-			'bower_components/angular-loader/angular-loader.min.js',
-			'bower_components/angular-messages/angular-messages.js',
-			'bower_components/angular-resource/angular-resource.js',
-			'bower_components/angular-route/angular-route.js',
-			'bower_components/angular-sanitize/angular-sanitize.js',
-			'bower_components/angular-touch/angular-touch.js',
-			'bower_components/angular-translate/angular-translate.js',
-			'bower_components/angular-spinner/dist/angular-spinner.js',
-			'bower_components/angular-ui-router/release/angular-ui-router.js',
-			'bower_components/angular-websocket/dist/angular-websocket.js',
-			'bower_components/oclazyload/dist/ocLazyLoad.js',
+			'./node_modules/jquery/dist/jquery.js',
+			'./node_modules/bootstrap/dist/js/bootstrap.js',
+			'./node_modules/bootstrap-toggle/js/bootstrap-toggle.js',
+			'./node_modules/moment/moment.js', // required by datetimepicker
+			'./node_modules/d3/d3.js', // required by angular-nvd3, included below
+			'./node_modules/nvd3/build/nv.d3.js', // required by angular-nvd3, included below
 
-			'bower_components/d3/d3.min.js',
-			'bower_components/nvd3/build/nv.d3.min.js',
-			'bower_components/angular-nvd3/dist/angular-nvd3.js',
+			'./node_modules/angular/angular.js',
+			'./node_modules/oclazyload/dist/ocLazyLoad.js',
+			'./node_modules/angular-animate/angular-animate.js',
+			'./node_modules/angular-aria/angular-aria.js',
+			'./node_modules/angular-cookies/angular-cookies.js',
+			'./node_modules/angular-loader/angular-loader.js',
+			'./node_modules/angular-messages/angular-messages.js',
+			'./node_modules/angular-mocks/angular-mocks.js',
+			'./node_modules/angular-nvd3/dist/angular-nvd3.js',
+			'./node_modules/angular-resource/angular-resource.js',
+			'./node_modules/angular-route/angular-route.js',
+			'./node_modules/angular-sanitize/angular-sanitize.js',
+			'./node_modules/angular-spinner/dist/angular-spinner.js',
+			'./node_modules/angular-touch/angular-touch.js',
+			'./node_modules/angular-translate/dist/angular-translate.js',
+			'./node_modules/angular-ui-router/release/angular-ui-router.js',
+			'./node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js',
+			'./node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
+			'./node_modules/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
+			'./node_modules/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js',
+			'./node_modules/angular-websocket/dist/angular-websocket.js',
 
-			'bower_components/angular-mocks/angular-mocks.js',
-
-			'app.js',
-			'components/**/*.js',
-			'views/**/*.js',
-			'views/**/*.html'
+			'./client/app.js',
+			'./client/components/**/*.js',
+			'./client/views/**/*.js',
+			'./client/views/**/*.html'
 		],
 
 		frameworks: ['jasmine'],
 
 		// convert html-templates to js files for inclusion in tests
 		preprocessors: {
-			'views/**/*.html': ['ng-html2js']
+			'./client/views/**/*.html': ['ng-html2js']
 		},
 
 		ngHtml2JsPreprocessor: {
@@ -67,7 +65,6 @@ module.exports = function(config) {
 		plugins: [
 			'karma-ng-html2js-preprocessor',
 			'karma-chrome-launcher',
-			// 'karma-firefox-launcher',
 			'karma-jasmine'
 		],
 
@@ -88,7 +85,7 @@ module.exports = function(config) {
 			}
 		},
 		browsers: ['ChromeHeadless'],
-		//browsers : ['Chrome', 'Firefox'],
+		//browsers : ['Chrome'],
 
 		/*
 		*	overrides the error, warn instead
@@ -103,7 +100,7 @@ module.exports = function(config) {
 		//runnerPort: 0,
 
 		logLevel: config.LOG_DEBUG,
-		autoWatch: true,
+		autoWatch: false,
 		singleRun: true,
 		colors: true
 

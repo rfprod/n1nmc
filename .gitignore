@@ -1,10 +1,9 @@
 node_modules/
-client/bower_components/
-*.log
-logs/*.log
 *.csv
-.env
-.*.env
+*.env
+*.log
+logs/*.*
+!logs/*.gitkeep
 client/css/*.min.css
 client/js/*.min.js
 client/fonts/*.*

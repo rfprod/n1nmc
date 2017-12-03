@@ -5,15 +5,16 @@ describe('appCore.profile module', function() {
 	beforeEach(module('appCore'));
 
 	describe('Profile controller', function() {
-		var scope, state, ctrl, API, UserService, usSpinnerService;
+		var scope, state, ctrl, API, uibModal, UserService, usSpinnerService;
 
-		beforeEach(inject(function($rootScope, $controller, _$state_, _$confirm_, _UserService_, _API_, _usSpinnerService_) {
+		beforeEach(inject(function($rootScope, $controller, _$state_, _$uibModal_, _UserService_, _API_, _usSpinnerService_) {
 			scope = $rootScope.$new();
 			state = _$state_;
 			API = _API_;
+			uibModal = _$uibModal_;
 			UserService = _UserService_;
 			usSpinnerService = _usSpinnerService_;
-			ctrl = $controller('ProfileController', {$scope: scope, $state: state, UserService: UserService, API: API, usSpinnerService: usSpinnerService});
+			ctrl = $controller('ProfileController', {$scope: scope, $state: state, $uibModal: uibModal, UserService: UserService, API: API, usSpinnerService: usSpinnerService});
 		}));
 
 		it('should be defined', function(){

@@ -166,3 +166,5 @@ var app = angular.module('appCore', [
 		});
 	}
 ]);
+
+var angularModals = angular.module('appCore.modals', []);

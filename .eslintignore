@@ -1,5 +1,4 @@
 node_modules/**
-client/bower_components/**
 *.svg
 *.css
 *.scss

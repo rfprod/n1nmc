@@ -1,12 +1,11 @@
+'use strict';
+
 const gulp = require('gulp'),
 	runSequence = require('run-sequence'),
 	util = require('gulp-util'),
 	plumber = require('gulp-plumber'),
 	concat = require('gulp-concat'),
 	rename = require('gulp-rename'),
-	del = require('del'),
-	gulpFilter = require('gulp-filter'),
-	mainBowerFiles = require('main-bower-files'),
 	uglify = require('gulp-uglify'),
 	sass = require('gulp-sass'),
 	cssnano = require('gulp-cssnano'),
@@ -14,17 +13,22 @@ const gulp = require('gulp'),
 	eslint = require('gulp-eslint'),
 	karmaServer = require('karma').Server,
 	mocha = require('gulp-mocha'),
+	del = require('del'),
 	spawn = require('child_process').spawn,
 	exec = require('child_process').exec;
 let node,
-	mongo;
+	mongo,
+	protractor;
 
 function killProcessByName(name){
-	exec('ps -e | grep ' + name, (error, stdout, stderr) => {
-		if (error) throw error;
+	exec('pgrep ' + name, (error, stdout, stderr) => {
+		if (error) {
+			// throw error;
+			console.log('killProcessByName, error', error);
+		}
 		if (stderr) console.log('stderr:', stderr);
 		if (stdout) {
-			const runningProcessesIDs = stdout.match(/\d{4}/);
+			const runningProcessesIDs = stdout.match(/\d+/);
 			runningProcessesIDs.forEach((id) => {
 				exec('kill -9 ' + id, (error, stdout, stderr) => {
 					if (error) throw error;
@@ -35,7 +39,7 @@ function killProcessByName(name){
 		}
 	});
 }
-gulp.task('database', () => {
+gulp.task('database', (done) => {
 	if (mongo) mongo.kill();
 	mongo = spawn('npm', ['run','mongo-start'], {stdio: 'inherit'});
 	mongo.on('close', (code) => {
@@ -43,8 +47,9 @@ gulp.task('database', () => {
 			gulp.log('Error detected, waiting for changes...');
 		}
 	});
+	done();
 });
-gulp.task('server', () => {
+gulp.task('server', (done) => {
 	if (node) node.kill();
 	node = spawn('node', ['server.js'], {stdio: 'inherit'});
 	node.on('close', (code) => {
@@ -52,21 +57,31 @@ gulp.task('server', () => {
 			gulp.log('Error detected, waiting for changes...');
 		}
 	});
+	done();
 });
 
-gulp.task('server-test', () => {
+gulp.task('server-test', (done) => {
 	return gulp.src(['test/unit/server.test.js'], { read: false })
 		.pipe(mocha({ reporter: 'nyan' }))
 		.once('error', util.log)
 		.once('end', () => {
 			console.log('server test finished');
-			//process.exit();
+			done();
 		});
 });
 gulp.task('client-unit-test', (done) => {
 	new karmaServer({
 		configFile: require('path').resolve('test/karma.conf.js'),
-		autoWatch: false,
+		autoWatch: true,
+		singleRun: false
+	}, () => {
+		console.log('done');
+		done();
+	}).start();
+});
+gulp.task('client-unit-test-single-run', (done) => {
+	new karmaServer({
+		configFile: require('path').resolve('test/karma.conf.js'),
 		singleRun: true
 	}, () => {
 		console.log('done');
@@ -74,50 +89,21 @@ gulp.task('client-unit-test', (done) => {
 	}).start();
 });
 
-/* vendor pack */
-gulp.task('bower-files', () => {
-	/*
-	*	notice
-	*	jquery is added to vendor pack manually,
-	*	because it is concatenated with other js files in wrong turn in auto mode,
-	*	it should be added first
-	*/
-	const filterJS = gulpFilter(['**/*.js', '!./client/bower_components/jquery/**'], { restore: true });
-	return gulp.src(['./client/bower_components/jquery/dist/jquery.js'].concat(mainBowerFiles(
-		{
-			paths: {
-				bowerJson: './bower.json',
-				bowerrc: './.bowerrc'
-			}
-		})))
-		.pipe(filterJS)
-		.pipe(plumber())
-		.pipe(concat('vendor-pack.js'))
-		.pipe(uglify())
-		.pipe(plumber.stop())
-		.pipe(rename('vendor-pack.min.js'))
-		.pipe(filterJS.restore)
-		.pipe(gulp.dest('./client/js'));
+gulp.task('client-e2e-test', (done) => {
+	if (protractor) protractor.kill();
+	protractor = spawn('npm', ['run', 'protractor'], {stdio: 'inherit'});
+	protractor.on('exit', (exitCode) => {
+		console.log('Protractor done, exited with code', exitCode);
+		done();
+	});
 });
-gulp.task('pack-vendor-css', () => { // packs vendor css files which bowerFiles put into client/js folder on bower-files task execution
-	return gulp.src('./client/js/*.css')
-		.pipe(plumber())
-		.pipe(concat('vendor-pack.css'))
-		.pipe(cssnano())
-		.pipe(plumber.stop())
-		.pipe(rename('vendor-pack.min.css'))
-		.pipe(gulp.dest('./client/css'));
-});
-gulp.task('move-vendor-fonts', () => { // move vendor font files which bowerFiles puts into client/fonts folder on bower-files task execution
-	return gulp.src(['./client/js/*.otf', './client/js/*.eot', './client/js/*.svg', './client/js/*.ttf', './client/js/*.woff', './client/js/*.woff2'])
-		.pipe(gulp.dest('./client/fonts'));
-});
-gulp.task('build-clean', () => { // remove vendor css and fonts from client/js
-	return del(['./client/js/*.css', './client/js/*.otf', './client/js/*.eot', './client/js/*.svg', './client/js/*.ttf', './client/js/*.woff', './client/js/*.woff2']);
+
+gulp.task('clean-build', () => {
+	return del(['./app/css/*.css', './app/js/*.js', './app/fonts/*.otf', './app/fonts/*.eot', './app/fonts/*.svg', './app/fonts/*.ttf', './app/fonts/*.woff', './app/fonts/*.woff2']);
 });
 
 /* application pack */
-gulp.task('concat-and-uglify-js', () => {
+gulp.task('pack-app-js', () => {
 	return gulp.src(['./client/app.js', './client/components/**/*.js', './client/views/**/*.js', '!./client/components/**/*_test.js', '!./client/views/**/*_test.js'])
 		.pipe(plumber())
 		.pipe(concat('packed-app.js'))
@@ -126,7 +112,7 @@ gulp.task('concat-and-uglify-js', () => {
 		.pipe(rename('packed-app.min.js'))
 		.pipe(gulp.dest('./client/js'));
 });
-gulp.task('sass-autoprefix-minify-css', () => {
+gulp.task('pack-app-css', () => {
 	return gulp.src('./client/css/*.scss')
 		.pipe(plumber())
 		.pipe(concat('packed-app.css'))
@@ -138,6 +124,81 @@ gulp.task('sass-autoprefix-minify-css', () => {
 		.pipe(plumber.stop())
 		.pipe(rename('packed-app.min.css'))
 		.pipe(gulp.dest('./client/css'));
+});
+
+/* vendor pack */
+gulp.task('pack-vendor-js', () => {
+	return gulp.src([
+		/*
+		*	add third party js files here
+		*
+		*	sequence is essential
+		*/
+		'./node_modules/jquery/dist/jquery.js',
+		'./node_modules/bootstrap/dist/js/bootstrap.js',
+		'./node_modules/bootstrap-toggle/js/bootstrap-toggle.js',
+		'./node_modules/moment/moment.js', // required by datetimepicker
+		'./node_modules/d3/d3.js', // required by angular-nvd3, included below
+		'./node_modules/nvd3/build/nv.d3.js', // required by angular-nvd3, included below
+
+		'./node_modules/angular/angular.js',
+		'./node_modules/oclazyload/dist/ocLazyLoad.js',
+		'./node_modules/angular-animate/angular-animate.js',
+		'./node_modules/angular-aria/angular-aria.js',
+		'./node_modules/angular-cookies/angular-cookies.js',
+		'./node_modules/angular-loader/angular-loader.js',
+		'./node_modules/angular-messages/angular-messages.js',
+		'./node_modules/angular-mocks/angular-mocks.js',
+		'./node_modules/angular-nvd3/dist/angular-nvd3.js',
+		'./node_modules/angular-resource/angular-resource.js',
+		'./node_modules/angular-route/angular-route.js',
+		'./node_modules/angular-sanitize/angular-sanitize.js',
+		'./node_modules/angular-spinner/dist/angular-spinner.js',
+		'./node_modules/angular-touch/angular-touch.js',
+		'./node_modules/angular-translate/dist/angular-translate.js',
+		'./node_modules/angular-ui-router/release/angular-ui-router.js',
+		'./node_modules/angular-ui-bootstrap/dist/ui-bootstrap.js',
+		'./node_modules/angular-ui-bootstrap/dist/ui-bootstrap-tpls.js',
+		'./node_modules/angular-bootstrap-datetimepicker/src/js/datetimepicker.js',
+		'./node_modules/angular-bootstrap-datetimepicker/src/js/datetimepicker.templates.js',
+		'./node_modules/angular-websocket/dist/angular-websocket.js'
+	])
+		.pipe(plumber())
+		.pipe(concat('vendor-pack.js'))
+		.pipe(uglify())
+		.pipe(plumber.stop())
+		.pipe(rename('vendor-pack.min.js'))
+		.pipe(gulp.dest('./client/js'));
+});
+gulp.task('pack-vendor-css', () => {
+	return gulp.src([
+		/*
+		*	add third party css files here
+		*/
+		'./node_modules/bootstrap/dist/css/bootstrap.css',
+		'./node_modules/bootstrap/dist/css/bootstrap-theme.css',
+		'./node_modules/bootstrap-toggle/css/bootstrap-toggle.min.css',
+		'./node_modules/angular-ui-bootstrap/dist/ui-bootstrap-csp.css',
+		'./node_modules/angular-bootstrap-datetimepicker/src/css/datetimepicker.css',
+		'./node_modules/nvd3/dist/nv.d3.css',
+		'./node_modules/font-awesome/css/font-awesome.css'
+	])
+		.pipe(plumber())
+		.pipe(concat('vendor-pack.css'))
+		.pipe(cssnano())
+		.pipe(plumber.stop())
+		.pipe(rename('vendor-pack.min.css'))
+		.pipe(gulp.dest('./client/css'));
+});
+gulp.task('move-vendor-fonts', () => {
+	return gulp.src([
+		/*
+		*	add third party fonts here
+		*/
+		'./node_modules/bootstrap/dist/fonts/*.*',
+		'./node_modules/font-awesome/fonts/*.*'
+	])
+		.pipe(gulp.dest('./client/fonts'));
 });
 
 gulp.task('lint', () => {
@@ -160,17 +221,21 @@ gulp.task('watch', () => {
 	gulp.watch(['./server.js', './server/models/*.js'], ['database']);
 	gulp.watch(['server/routes/*.js', 'server/reporter/*.js', 'server.js', 'test/unit/server.test.js'], ['server-test']);
 	gulp.watch(['client/app.js', 'client/components/*.js', 'client/components/**/*.js', 'client/views/**/*.js'], ['client-unit-test']);
-	gulp.watch(['./client/app.js', './client/components/**/*.js', './client/views/**/*.js', '!./client/components/**/*_test.js', '!./client/views/**/*_test.js'], ['concat-and-uglify-js']);
-	gulp.watch('./client/css/*.scss', ['sass-autoprefix-minify-css']);
+	gulp.watch(['./client/app.js', './client/components/**/*.js', './client/views/**/*.js', '!./client/components/**/*_test.js', '!./client/views/**/*_test.js'], ['pack-app-js']);
+	gulp.watch('./client/css/*.scss', ['pack-app-css']);
 	gulp.watch(['./server/**', './client/**', './*.js', './.eslintignore', './.eslintrc.json'], ['lint']);
 });
 
 gulp.task('build', (done) => {
-	runSequence('bower-files', 'pack-vendor-css', 'move-vendor-fonts', 'build-clean', 'concat-and-uglify-js', 'sass-autoprefix-minify-css', done);
+	runSequence('pack-vendor-js', 'pack-vendor-css', 'move-vendor-fonts', 'clean-build', 'pack-app-js', 'pack-app-css', done);
 });
 
 gulp.task('default', (done) => {
 	runSequence('database','server', 'build', 'watch', done);
+});
+
+gulp.task('production-start', (done) => {
+	runSequence('database','server', 'build', done);
 });
 
 process.on('exit', () => {

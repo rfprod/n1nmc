@@ -18,7 +18,7 @@ charset = utf-8
 indent_style = tab
 indent_size = 4
 
-# 2 space indentation for code
-[*.{js,json,sh,bowerrc,md}]
+# 2 space indentation for code, json, and markdown
+[*.{js,json,sh,md}]
 indent_style = tab
 indent_size = 2

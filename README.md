@@ -1,5 +1,7 @@
 # Ng1NodeMongoCore (N1NMC)
 
+![build](https://travis-ci.org/rfprod/ng1mnc.svg?branch=master)
+
 ## Overview
 
 Ng1NodeMongoCore - application core based on NodeJS, MongoDB and AngularJS (1.x.x).
@@ -22,7 +24,7 @@ Ng1NodeMongoCore - application core based on NodeJS, MongoDB and AngularJS (1.x.
 	* `./test/e2e` - end to end tests
 	* `./test/unit` - server tests
 
-# Start
+## Start
 
 ### Requirements
 
@@ -51,25 +53,6 @@ Create a file named `.env` in the root directory. This file should contain:
 MONGO_URI=mongodb://localhost:27017/n1nmc
 PORT=8080
 APP_URL=http://localhost:8080/
-MAILER_HOST=smtp.gmail.com
-MAILER_PORT=465
-MAILER_EMAIL=sender@email.tld
-MAILER_PASS=seNderPassWoRd
-MAILER_RECIPIENT_EMAIL=recipient@email.tld
-```
-
-#### Openshift deployment requires env variables setup via rhc
-
-for example
-
-`rhc env set -a n1nm -e APP_URL=https://n1nmc-ecapseman.rhcloud.com/`
-
-required vars
-
-```
-APP_URL=application-url
-MONGO_USR=database-user-name
-MONGO_PASS=database-user-password
 MAILER_HOST=smtp.gmail.com
 MAILER_PORT=465
 MAILER_EMAIL=sender@email.tld
@@ -121,11 +104,9 @@ To lint the code execute the following command in the terminal window while in y
 $ npm run lint
 ```
 
-### The OpenShift cartridges documentation
+### Errors
 
-* [`cartridge guide`](https://github.com/openshift/origin-server/blob/master/documentation/oo_cartridge_guide.adoc#openshift-origin-cartridge-guide)
-* [`cartridge guide: mongodb`](https://github.com/openshift/origin-server/blob/master/documentation/oo_cartridge_guide.adoc#9-mongodb)
-* [`cartridge guide: nodejs`](https://github.com/openshift/origin-server/blob/master/documentation/oo_cartridge_guide.adoc#11-nodejs)
+In case of mongo error on startup use npm task `npm run mongo-repair` then `npm start` again
 
 ## Licenses
 

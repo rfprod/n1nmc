@@ -5,18 +5,17 @@ describe('appCore.adminPanel module', function() {
 	beforeEach(module('appCore'));
 
 	describe('Admin Panel controller', function(){
-		var scope, state, filter, ctrl, confirm, uibModal, usSpinnerService, UserService, API;
+		var scope, state, filter, ctrl, uibModal, usSpinnerService, UserService, API;
 
-		beforeEach(inject(function($rootScope, $controller, _$state_, _$filter_, _$confirm_, _$uibModal_, _usSpinnerService_, _UserService_, _API_) {
+		beforeEach(inject(function($rootScope, $controller, _$state_, _$filter_, _$uibModal_, _usSpinnerService_, _UserService_, _API_) {
 			scope = $rootScope.$new();
 			state = _$state_;
 			filter = _$filter_;
-			confirm = _$confirm_;
 			uibModal = _$uibModal_;
 			API = _API_;
 			usSpinnerService = _usSpinnerService_;
 			UserService = _UserService_;
-			ctrl = $controller('AdminPanelController', {$scope: scope, $state: state, $filter: filter, $confirm: confirm, $uibModal: uibModal, usSpinnerService: usSpinnerService, UserService: UserService, API: API});
+			ctrl = $controller('AdminPanelController', {$scope: scope, $state: state, $filter: filter, $uibModal: uibModal, usSpinnerService: usSpinnerService, UserService: UserService, API: API});
 		}));
 
 		it('should be difined', function(){

@@ -8,11 +8,11 @@ var httpServices = angular.module('appCore.httpServices', ['ngResource', 'ngWebS
 function setBaseUrl(absUrl) {
 	//console.log('absUrl:', absUrl);
 	//console.log(' >> set base URL. match', absUrl.match(new RegExp('http(s)?:\/\/[^/]+'), 'ig'));
-	return absUrl.match(new RegExp('http(s)?:\/\/[^/]+'))[0];
+	return absUrl.match(new RegExp('http(s)?://[^/]+'))[0];
 }
 function setBaseWs(absUrl) {
 	//console.log(' >>> setBaseWs:', absUrl);
-	var match = absUrl.match(new RegExp(':\/\/[^/]+'))[0];
+	var match = absUrl.match(new RegExp('://[^/]+'))[0];
 	//console.log('match:', match);
 	return (absUrl.length > 4 && match) ? 'ws' + match : '';
 }

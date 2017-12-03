@@ -28,20 +28,20 @@ describe('appCore services: ', function() {
 			expect(UserService.model).toEqual(jasmine.objectContaining({
 				id: '', login: '', firstName: '', lastName: '', email: '', role: '', token: ''
 			}));
-		// Save
+			// Save
 			UserService.model.id = 'test';
 			expect(UserService.model.id).toEqual('test');
 			expect(sessionStorage.userService).toBeUndefined();
 			UserService.SaveUser();
 			expect(JSON.parse(sessionStorage.userService)).toEqual(UserService.model);
-		// Restore
+			// Restore
 			UserService.model.id = 'zzz';
 			expect(UserService.model.id).toEqual('zzz');
 			expect(JSON.parse(sessionStorage.userService)).not.toEqual(UserService.model);
 			expect(sessionStorage.userService).toBeDefined();
 			UserService.RestoreUser();
 			expect(JSON.parse(sessionStorage.userService)).toEqual(UserService.model);
-		// Reset
+			// Reset
 			UserService.model.id = 'id';
 			UserService.model.login = 'login';
 			UserService.model.firstName = 'firstName';
