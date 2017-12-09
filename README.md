@@ -28,7 +28,7 @@ Ng1NodeMongoCore - application core based on NodeJS, MongoDB and AngularJS (1.x.
 
 ### Requirements
 
-In order to run your own copy of N1NMC, you must have the following installed:
+In order to run your own copy of Ng1NMC, you must have the following installed:
 
 - [`Node.js`](https://nodejs.org/)
 - [`NPM`](https://nodejs.org/)
@@ -37,20 +37,20 @@ In order to run your own copy of N1NMC, you must have the following installed:
 
 ### Installation & Startup
 
-To install N1NMC execute the below command in the terminal window while in your projects folder:
+To install Ng1NMC execute the below command in the terminal window while in your projects folder:
 
 ```
-git clone https://github.com/rfprod/n1nmc.git
+git clone https://github.com/rfprod/ng1nmc.git
 ```
 
-This will install the N1NMC components into the `n1nmc` directory in your projects folder.
+This will install the Ng1NMC components into the `ng1nmc` directory in your projects folder.
 
 ### Local Environment Variables
 
 Create a file named `.env` in the root directory. This file should contain:
 
 ```
-MONGO_URI=mongodb://localhost:27017/n1nmc
+MONGO_URI=mongodb://localhost:27017/ng1nmc
 PORT=8080
 APP_URL=http://localhost:8080/
 MAILER_HOST=smtp.gmail.com
@@ -74,7 +74,7 @@ Now open your browser and type in the address bar
 http://localhost:8080/
 ```
 
-N1NMC is up and running.
+Ng1NMC is up and running.
 
 ### Testing
 
@@ -110,4 +110,4 @@ In case of mongo error on startup use npm task `npm run mongo-repair` then `npm 
 
 ## Licenses
 
-* [`N1NMC`](LICENSE.md)
+* [`Ng1NMC`](LICENSE.md)
