@@ -50,15 +50,20 @@ This will install the Ng1NMC components into the `ng1nmc` directory in your proj
 Create a file named `.env` in the root directory. This file should contain:
 
 ```
+MONGO_FILE_PATH=/root/relative/path/to/mongo
 MONGO_URI=mongodb://localhost:27017/ng1nmc
 PORT=8080
 APP_URL=http://localhost:8080/
 MAILER_HOST=smtp.gmail.com
 MAILER_PORT=465
-MAILER_EMAIL=sender@email.tld
-MAILER_PASS=seNderPassWoRd
-MAILER_RECIPIENT_EMAIL=recipient@email.tld
+MAILER_EMAIL=dummy-sender-email@gmail.com
+MAILER_CLIENT_ID=dummy-client-id.apps.googleusercontent.com
+MAILER_CLIENT_SECRET=dummy-client-secret
+MAILER_REFRESH_TOKEN=dummy-refresh-token
+MAILER_RECIPIENT_EMAIL=dummy-recipient-email@gmail.com
 ```
+
+If `MONGO_FILE_PATH` is not set, database will be created in `~/mongo/`
 
 ### Starting the App
 
