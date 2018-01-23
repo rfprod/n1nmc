@@ -78,8 +78,12 @@ let smtpConfig = {
 	port: process.env.MAILER_PORT,
 	secure: true, // use SSL
 	auth: {
+		type: 'OAuth2',
 		user: process.env.MAILER_EMAIL,
-		pass: process.env.MAILER_PASS
+		clientId: process.env.MAILER_CLIENT_ID,
+		clientSecret: process.env.MAILER_CLIENT_SECRET,
+		refreshToken: process.env.MAILER_REFRESH_TOKEN,
+		accessToken: 'empty'
 	}
 };
 let isDevEnvironment = false; // this variable is needed to set proper failureRedirect paths for application routes
@@ -91,6 +95,13 @@ if (process.env.HOME.indexOf('ruser') != -1) {
 }
 
 const mailTransporter = nodemailer.createTransport(smtpConfig); // reusable transporter object using the default SMTP transport
+mailTransporter.verify((err, success) => {
+	if (err) {
+		console.log('Mail transporter diag error >>', err);
+	} else {
+		console.log('Mail transporter diag success >>', success);
+	}
+});
 
 routes(app,passport,crypto,jwt,Account,Entrant,SrvInfo,DataInit,mailTransporter, reporterSingleRun, isDevEnvironment);
 
