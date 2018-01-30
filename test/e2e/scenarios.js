@@ -8,7 +8,7 @@ describe('appCore', function() {
 
 	it('should automatically redirect to /app/sign-in when location hash/fragment is empty', function() {
 		browser.get('');
-		expect(browser.getLocationAbsUrl()).toMatch(/\/app\/sign-in/);
+		expect(browser.getCurrentUrl()).toMatch(/\/app\/sign-in/);
 	});
 
 	describe('app/sign-in view', function() {
@@ -19,7 +19,7 @@ describe('appCore', function() {
 		});
 
 		it('should render sign-in view when user navigates to /app/sign-in', function(done) {
-			expect(browser.getLocationAbsUrl()).toMatch(/\/app\/sign-in/);
+			expect(browser.getCurrentUrl()).toMatch(/\/app\/sign-in/);
 			expect(element(by.css('h1')).getText()).toMatch(/Sign In/);
 			expect(element(by.css('p[class*=lead]')).getText()).toMatch(/Provide an Email address and a Password/);
 
@@ -32,14 +32,14 @@ describe('appCore', function() {
 			element(by.css('[ui-view] input[type="submit"]')).click();
 
 			browser.wait(EC.textToBePresentInElement(element(by.css('h1')), 'Campaign Dashboard'), 5000);
-			expect(browser.getLocationAbsUrl()).toMatch(/\/app\/user\/dashboard/);
+			expect(browser.getCurrentUrl()).toMatch(/\/app\/user\/dashboard/);
 
 			done();
 		});
 
 		it('should redirect to /app/user/dashboard if user explicitly tries to access /app/sign-in view while being authenticated', function(done) {
 			browser.setLocation('app/sign-in');
-			expect(browser.getLocationAbsUrl()).toMatch(/\/app\/user\/dashboard/);
+			expect(browser.getCurrentUrl()).toMatch(/\/app\/user\/dashboard/);
 
 			done();
 		});
@@ -47,7 +47,7 @@ describe('appCore', function() {
 		it('should be the view where user is redirected when signing out of /user/dashboard', function(done) {
 			element(by.css('button[ng-click="toggleNavbarCollapse()"]')).click();
 			element(by.css('a[ng-click="logout()"]')).click();
-			expect(browser.getLocationAbsUrl()).toMatch(/\/app\/sign-in/);
+			expect(browser.getCurrentUrl()).toMatch(/\/app\/sign-in/);
 
 			done();
 		});
@@ -58,14 +58,14 @@ describe('appCore', function() {
 			element(by.css('[ui-view] input[type="submit"]')).click();
 
 			browser.wait(EC.textToBePresentInElement(element(by.css('h1')), 'Campaign Dashboard'), 5000);
-			expect(browser.getLocationAbsUrl()).toMatch(/\/app\/admin\/dashboard/);
+			expect(browser.getCurrentUrl()).toMatch(/\/app\/admin\/dashboard/);
 
 			done();
 		});
 
 		it('should redirect to /app/admin/dashboard if user explicitly tries to access /app/sign-in view while being authenticated', function(done) {
 			browser.setLocation('app/sign-in');
-			expect(browser.getLocationAbsUrl()).toMatch(/\/app\/admin\/dashboard/);
+			expect(browser.getCurrentUrl()).toMatch(/\/app\/admin\/dashboard/);
 
 			done();
 		});    
@@ -73,7 +73,7 @@ describe('appCore', function() {
 		it('should be the view where user is redirected when signing out of /app/admin/dashboard', function(done) {
 			element(by.css('button[ng-click="toggleNavbarCollapse()"]')).click();
 			element(by.css('a[ng-click="logout()"]')).click();
-			expect(browser.getLocationAbsUrl()).toMatch(/\/app\/sign-in/);
+			expect(browser.getCurrentUrl()).toMatch(/\/app\/sign-in/);
 
 			done();
 		});
@@ -88,7 +88,7 @@ describe('appCore', function() {
 		});
 
 		it('should redirect to sign in view when user navigates to /app/user/dashboard without providing proper user credentials', function(done) {
-			expect(browser.getLocationAbsUrl()).toMatch(/\/app\/sign-in/);
+			expect(browser.getCurrentUrl()).toMatch(/\/app\/sign-in/);
 
 			done();
 		});
@@ -160,7 +160,7 @@ describe('appCore', function() {
 		it('should redirect to /app/sign-in view when user signs out of /app/user/dashboard', function(done) {
 			element(by.css('button[ng-click="toggleNavbarCollapse()"]')).click();
 			element(by.css('a[ng-click="logout()"]')).click();
-			expect(browser.getLocationAbsUrl()).toMatch(/\/app\/sign-in/);
+			expect(browser.getCurrentUrl()).toMatch(/\/app\/sign-in/);
 
 			done();
 		});
@@ -175,7 +175,7 @@ describe('appCore', function() {
 		});
 
 		it('should redirect to sign in view when user navigates to /app/admin/dashboard without providing proper user credentials', function(done) {
-			expect(browser.getLocationAbsUrl()).toMatch(/\/app\/sign-in/);
+			expect(browser.getCurrentUrl()).toMatch(/\/app\/sign-in/);
 
 			done();
 		});
@@ -264,7 +264,7 @@ describe('appCore', function() {
 		it('should redirect to /app/sign-in view when user signs out of /app/admin/dashboard', function(done) {
 			element(by.css('button[ng-click="toggleNavbarCollapse()"]')).click();
 			element(by.css('a[ng-click="logout()"]')).click();
-			expect(browser.getLocationAbsUrl()).toMatch(/\/app\/sign-in/);
+			expect(browser.getCurrentUrl()).toMatch(/\/app\/sign-in/);
 
 			done();
 		});
@@ -279,7 +279,7 @@ describe('appCore', function() {
 		});
 
 		it('should redirect to sign in view when user navigates to /profile without providing proper user credentials', function(done) {
-			expect(browser.getLocationAbsUrl()).toMatch(/\/app\/sign-in/);
+			expect(browser.getCurrentUrl()).toMatch(/\/app\/sign-in/);
 
 			element(by.css('[ui-view] #email')).sendKeys('admin@admin.admin');
 			element(by.css('[ui-view] #password')).sendKeys('000');
@@ -397,7 +397,7 @@ describe('appCore', function() {
 		it('should redirect to /app/sign-in view when user signs out of /app/profile', function(done) {
 			element(by.css('button[ng-click="toggleNavbarCollapse()"]')).click();
 			element(by.css('a[ng-click="logout()"]')).click();
-			expect(browser.getLocationAbsUrl()).toMatch(/\/app\/sign-in/);
+			expect(browser.getCurrentUrl()).toMatch(/\/app\/sign-in/);
 
 			done();
 		});

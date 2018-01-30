@@ -1,34 +1,28 @@
 //jshint strict: false
 exports.config = {
 
-	directConnect: false,
-
-	chromeOnly: false,
-
-	allScriptsTimeout: 11000,
-
 	specs: [
-		'*.js'
+		'scenarios.js'
 	],
 
 	capabilities: {
-		//'browserName': 'chrome'
-		'browserName': 'phantomjs',
-		'phantomjs': {
-			'binary': {
-				'path': require('phantomjs-prebuilt').path
-			},
-			'ghostdriver': {
-				'cli': {
-					'args': ['--loglevel=DEBUG']
-				}
-			}
+		browserName: 'chrome',
+		chromeOptions: {
+			args: [ '--headless', '--disable-gpu', '--window-size=1024x768' ]
 		}
 	},
+
+	directConnect: true,
+
+	chromeOnly: false,
 
 	baseUrl: 'http://localhost:8080/',
 
 	framework: 'jasmine',
+
+	allScriptsTimeout: 15000,
+
+	getPageTimeout: 15000,
 
 	jasmineNodeOpts: {
 		defaultTimeoutInterval: 30000
