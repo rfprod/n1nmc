@@ -115,4 +115,4 @@ In case of mongo error on startup use npm task `npm run mongo-repair` then `npm 
 
 ## Licenses
 
-* [`Ng1NMC`](LICENSE.md)
+* [`Ng1NMC`](LICENSE)
