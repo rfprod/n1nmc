@@ -1,4 +1,3 @@
-//jshint strict: false
 exports.config = {
 
 	specs: [
@@ -25,6 +24,7 @@ exports.config = {
 	getPageTimeout: 15000,
 
 	jasmineNodeOpts: {
+		showColors: true,
 		defaultTimeoutInterval: 30000
 	}
 
