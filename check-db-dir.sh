@@ -5,7 +5,7 @@ export $(cat .env | sed 's/^/export /')
 echo 'MONGO_FILE_PATH =' $MONGO_FILE_PATH
 
 if [ -z ${MONGO_FILE_PATH+x} ]; then
-	MONGO_FILE_PATH="~/mongo"
+	MONGO_FILE_PATH="${HOME}/mongo"
 	echo 'set default mongo path ' $MONGO_FILE_PATH
 else
 	echo 'mongo path is set in .env ' $MONGO_FILE_PATH
@@ -19,7 +19,7 @@ else
 fi
 
 if [ ! -d ${MONGO_FILE_PATH}"/ng1nmc/" ]; then
-	DIR="${MONGO_FILE_PATH}ng1nmc/"
+	DIR="${MONGO_FILE_PATH}/ng1nmc/"
 	mkdir $DIR
 	echo 'created directory for app database, path' $DIR
 else
